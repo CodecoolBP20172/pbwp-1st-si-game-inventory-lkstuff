@@ -1,16 +1,12 @@
 # This is the file where you must work. Write code in the functions, create new functions,
 # so they work according to the specification
-inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
 # Displays the inventory.
 def display_inventory(inventory):
+    print("Inventory:")
     for k, v in inventory.items():
         print(v, k)
-        d = str(sum(inventory.values()))
-    print("Total number of item: " + d)
-
-print("Inventory:")
-display_inventory(inv)
-
+    d = sum(inventory.values())
+    print("Total number of item: %d" % d)
 
 
 # Adds to the inventory dictionary a list of items from added_items.
@@ -43,3 +39,11 @@ def import_inventory(inventory, filename="import_inventory.csv"):
 # with comma separated values (CSV).
 def export_inventory(inventory, filename="export_inventory.csv"):
     pass
+
+
+def main():
+    inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
+    display_inventory(inv)
+
+if __name__ == '__main__':
+    main()
