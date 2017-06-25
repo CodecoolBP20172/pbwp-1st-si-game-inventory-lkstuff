@@ -66,7 +66,13 @@ def print_table(inventory, order=None):
 # "import_inventory.csv". The import automatically merges items by name.
 # The file format is plain text with comma separated values (CSV).
 def import_inventory(inventory, filename="import_inventory.csv"):
-    pass
+    import csv
+    with open(filename) as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            inventory = add_to_inventory(inventory, row)
+    return inventory
+
 
 
 # Exports the inventory into a .csv file.
@@ -85,6 +91,9 @@ def main():
     inv = add_to_inventory(inv, dragon_loot)
     display_inventory(inv)
 
+    print_table(inv, "count,desc")
+
+    inv = import_inventory(inv, "my_inventory.csv")
     print_table(inv, "count,desc")
 
 if __name__ == '__main__':
