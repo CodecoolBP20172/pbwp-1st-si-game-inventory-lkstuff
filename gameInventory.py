@@ -27,7 +27,38 @@ def add_to_inventory(inventory, added_items):
 #   in descending order
 # - "count,asc" means the table is ordered by count in ascending order
 def print_table(inventory, order=None):
-    pass
+    import operator
+
+    TITLE_COUNT = "count"
+    TITLE_NAME = "item name"
+
+    def get_max_lenght(inventory):
+        key_lenght = len(TITLE_NAME)
+        value_lenght = len(TITLE_COUNT)
+        for k, v in inventory.items():
+            key_lenght = max(len(str(k)), key_lenght)
+            value_lenght = max(len(str(v)), value_lenght)
+        return {"title": key_lenght + 4, "count": value_lenght + 2}
+
+    def print_table_row(count, name, max_lenght):
+        print("%s%s%s%s" % (" " * (max_lenght["count"] - len(str(count))), str(count), " " * (max_lenght["title"] - len(name)), name))
+
+    if order == "count,desc":
+        sorted_inventory = sorted(inventory.items(), key = operator.itemgetter(1), reverse = True)
+    elif order == "count,asc":
+        sorted_inventory = sorted(inventory.items(), key = operator.itemgetter(1), reverse = False)
+    else:
+        sorted_inventory = [(k,v) for k,v in inventory.items()]
+
+    max_lenght = get_max_lenght(inventory)
+    print("Inventory:")
+    print_table_row(TITLE_COUNT, TITLE_NAME, max_lenght)
+    print("-" * (max_lenght["count"] + max_lenght["title"]))
+    for k, v in sorted_inventory:
+        print_table_row(v, k, max_lenght)
+    print("-" * (max_lenght["count"] + max_lenght["title"]))
+    d = sum(inventory.values())
+    print("Total number of item: %d" % d)
 
 
 # Imports new inventory items from a file
@@ -53,6 +84,8 @@ def main():
     dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
     inv = add_to_inventory(inv, dragon_loot)
     display_inventory(inv)
+
+    print_table(inv, "count,desc")
 
 if __name__ == '__main__':
     main()
