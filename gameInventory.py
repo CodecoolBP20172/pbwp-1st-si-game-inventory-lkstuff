@@ -11,7 +11,12 @@ def display_inventory(inventory):
 
 # Adds to the inventory dictionary a list of items from added_items.
 def add_to_inventory(inventory, added_items):
-    pass
+    for item in added_items:
+        if item in inventory:
+            inventory[item] += 1
+        else:
+            inventory[item] = 1
+    return inventory
 
 
 # Takes your inventory and displays it in a well-organized table with
@@ -43,6 +48,10 @@ def export_inventory(inventory, filename="export_inventory.csv"):
 
 def main():
     inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
+    display_inventory(inv)
+
+    dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
+    inv = add_to_inventory(inv, dragon_loot)
     display_inventory(inv)
 
 if __name__ == '__main__':
